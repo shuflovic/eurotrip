@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GHM Tanigawa</title>
+    <link rel="stylesheet" href="GHMstyles.css">
+    <style>
+        
+        td[contenteditable="true"] {
+            background-color: #f8f8f8; /* Very light gray background */
+            outline: none; /* Remove default outline on focus */
+        }
+           
+        
+        aside {
+            background-color: #5DADE2;
+            width: 150px;
+            padding: 10px;
+            justify-content: center;
+            box-sizing: border-box;
+            border-radius: 10px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+
+#chat-container {
+  width: auto;
+  border: 1px solid #ccc;
+  padding: 10px;
+  font-family: sans-serif;
+}
+
+#chat-messages {
+  height: 200px;
+  overflow-y: scroll;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 10px;
+}
+
+#chat-input {
+  display: flex;
+}
+
+#message-input {
+  flex-grow: 1;
+  padding: 2px;
+    width: 100%;
+}
+
+
+
+.notification {
+    background-color: lightblue;
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
+#chat-history {
+    border: 1px solid #eee;
+    padding: 10px;
+    margin-top: 20px;
+    width: 300px;
+}
+
+#chat-history h3 {
+    margin-top: 0;
+}
+
+        
+        
+    </style>
+
+    
+</head>
+<body>
+
+    <aside>owner side - site settings<br><br>
+
+<div>
+    <h3>Value of Cell A2:</h3>
+    <div id="a2-display">Loading...</div>
+</div>
+
+        <button id="createIzbaButton">Create room</button>
+        <button id="createwhatsapptemplate">Create whatsapp templates</button>
+        <button id="populateButton">Update Rooms</button> 
+        <button id="statisticsButton">Statistics</button>
+        <button id="excelButton" onclick="window.open('excel-file.html', '_blank');">excel</button>
+    <button id="roomSetupButton11">Room Setup</button>
+        
+        <br>
+        <br>
+        calendar visibility
+<br><br><br><br><br><br>
+
+        
+        <button id="TDLButton">&plus;</button>
+        <input type="text" id="TDL" placeholder="Add task to do list">
+    <table>
+        
+    </table>
+
+
+        
+    </aside>
+
+    
+<div id="content-area">
+        
+<div id="top-section">
+
+        <div id="date-container">information panel
+        <label for="booking-date"></label>
+<button onclick="adjustDate(-1)">&minus;</button>
+        <input type="text" id="booking-date" value="01.Feb.2025" readonly>
+<button onclick="adjustDate(1)">&plus;</button>
+        </div>
+        
+        <div id="day-of-week"></div>
+    <div id="summary-container">
+                <h2></h2>
+                <ul id="guest-summary-list">
+                </ul>
+    </div>
+ 
+</div>
+    
+
+<div id="req-but"></div> 
+
+
+
+
+
+<div id="roomSetupModal11" class="room-setup-modal11">
+    <div class="room-setup-modal-content11">
+    
+    <h2>Add/Edit Room</h2>
+    <label for="roomName11">Room Name:</label>
+    <span class="close11">&times;</span>
+    <input type="text" id="roomName11"><br>
+    <label for="maxGuests11">Max Guests:</label>
+    <input type="number" id="maxGuests11" min="1"><br><br>
+    <label for="roomNote11">Note:</label><br>
+    <textarea id="roomNote11" rows="4" cols="50"></textarea><br><br>
+    <button id="saveRoomButton11">Save Room</button>
+    <button id="cancelRoomButton11">Cancel</button>
+    <button id="addRoomButton11">Save and Add Another Room</button>
+    <button id="removeRoomButton11" style="display:none">Remove Room</button>
+
+  
+  </div>
+</div>
+
+<main id="mainSection11"></main>
+   
+<main>
+    
+<datatable>
+    <table>
+        <thead>
+            <tr>
+                <th>to do list</th>
+                <th>done</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+<tbody id="guestDataTableBody1"></tbody>
+    </table>
+</datatable>
+
+      
+      
+<datatable>
+    <table>
+        <thead>
+            <tr>
+                <th>Booking Date</th>
+                <th>Room Number</th>
+                <th>Guest Name</th>
+                <th>Number of Guests</th>
+                <th>nr of nights</th>
+                <th>price</th>
+                <th>payment status</th>
+                <th>platform</th>
+                <th>notes</th>
+            </tr>
+        </thead>
+<tbody id="guestDataTableBody"></tbody>
+  </table>
+
+
+</datatable>
+</main>
+
+    
+<h3>Sheet Data:</h3>
+<div id="sheet-data"></div>
+
+    
+  </div> 
+
+    <div id="right-aside">informative buttons for staff <br><br>
+        <button id="shopping-list">Shopping list</button>
+        <button id="recipes">Recipes</button>
+        <button id="LostAndFound">lost and found</button>
+        <button id="instructions">Instructions</button>
+        <button id="ticket-sales">Ski pass</button>
+
+        
+<div id="chat-container">
+    <div id="chat-input">
+    <input type="text" id="message-input" placeholder="Type your message...">
+    </div>
+    <div id="chat-messages"></div><br>
+</div>
+
+<div id="shoppingListContainer">
+        <h2>Shopping List</h2>
+        <textarea id="shoppingListText">Hi there,
+    Please bring more:
+
+    </textarea>
+        <div id="item-suggestions">
+            <button>Milk</button>
+            <button>Bread</button>
+            <button>Eggs</button>
+            <button>Cheese</button>
+            <button>...</button>
+            <button>honey</button>
+            <button>granola</button>
+            <button>pasta</button>
+            <button>flour</button>
+        </div><br>
+        <button id="sendButton">Send via WhatsApp</button>
+        <button id="closeButton">Close</button>
+</div>
+
+    
+<div id="request-creation-modal" class="modal" style="display: none;">
+    <h2>Create WhatsApp Button</h2>
+    <input type="text" id="new-button-text" placeholder="Button text">
+    <input type="text" id="new-pretext" placeholder="Message text">
+    <button id="create-request">Create</button>
+    <button id="cancel-request-creation">Cancel</button>
+    
+    <h3>Existing Buttons:</h3>
+    <div id="button-list"></div> <!-- Existing buttons show here -->
+</div>
+
+
+    
+      
+<script src="whatsapp-buttons.js"></script>
+<script src="shopping-list.js"></script>
+
+
+
+    
+
+<script src="to-do-button.js"></script>
+<script src="INS.js"></script>
+<script src="excel-file1.js"></script>
+    <script src="roomsetup1.js"></script>
+
+    <script src="chat.js"></script>
+    
+<script src="date.js"></script>
+
+</body>
+</html>
