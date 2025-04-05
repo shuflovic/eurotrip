@@ -347,7 +347,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const spreadsheetId = '177hihTgXiZy2ceOo7dTaO6pSO00jv_oZyJztyuK6hy0';
     const sheetName = 'tanigawa';
-    const apiKey = 'AIzaSyBO9-A9HwPRCtPB8Y4Ax-iVpr6kVqupVWY';
+    const apiKey = '';
     fetchGoogleSheetData(spreadsheetId, sheetName, apiKey);
 });
 
