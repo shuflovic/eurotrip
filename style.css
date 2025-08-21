@@ -1,1 +1,142 @@
+body {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #f0e8d0; /* Old paper yellow */
+    color: #333;
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+}
 
+header {
+    background-color: #8b4513; /* Brown like old wood */
+    color: white;
+    text-align: center;
+    padding: 20px;
+    border-bottom: 5px solid #cd853f; /* Retro border */
+}
+
+h1, h2, h3 {
+    font-family: 'Courier New', Courier, monospace;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+h1 {
+    font-size: 24px;
+}
+
+h2 {
+    font-size: 20px;
+}
+
+p, ul {
+    font-size: 16px;
+}
+
+.funny {
+    font-style: italic;
+    color: #ff4500; /* Orangey fun */
+}
+
+#navigation {
+    position: fixed;
+    right: 0;
+    top: 20%;
+    width: 200px;
+    background-color: #deb887; /* Burly wood */
+    padding: 10px;
+    border-left: 3px solid #8b4513;
+    height: 60%;
+    overflow-y: auto;
+}
+
+#navigation ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#navigation li {
+    margin-bottom: 10px;
+}
+
+#navigation a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    display: block;
+    padding: 5px;
+    background-color: #f5deb3; /* Wheat */
+    border: 1px solid #cd853f;
+}
+
+#navigation a:hover {
+    background-color: #cd853f;
+    color: white;
+}
+
+#content {
+    margin: 20px auto;
+    max-width: 800px;
+    padding: 20px;
+    background-color: white;
+    border: 3px solid #8b4513;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.3); /* Retro shadow */
+}
+
+section {
+    display: none;
+}
+
+section.active {
+    display: block;
+}
+
+ul {
+    list-style-type: square;
+}
+
+/* Mobile focus: Make nav stack on small screens */
+@media (max-width: 768px) {
+    #navigation {
+        position: static;
+        width: 100%;
+        height: auto;
+        border-left: none;
+        border-bottom: 3px solid #8b4513;
+        top: auto;
+        display: flex;
+        justify-content: center;
+    }
+
+    #navigation ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    #navigation li {
+        margin: 5px;
+    }
+
+    #navigation a {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    #content {
+        margin: 10px;
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    p, ul {
+        font-size: 14px;
+    }
+}
