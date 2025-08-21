@@ -3,274 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GHM Tanigawa</title>
-    <link rel="stylesheet" href="GHMstyles.css">
-    <style>
-        
-        td[contenteditable="true"] {
-            background-color: #f8f8f8; /* Very light gray background */
-            outline: none; /* Remove default outline on focus */
-        }
-           
-        
-        aside {
-            background-color: #5DADE2;
-            width: 150px;
-            padding: 10px;
-            justify-content: center;
-            box-sizing: border-box;
-            border-radius: 10px;
-            flex-shrink: 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-
-#chat-container {
-  width: auto;
-  border: 1px solid #ccc;
-  padding: 10px;
-  font-family: sans-serif;
-}
-
-#chat-messages {
-  height: 200px;
-  overflow-y: scroll;
-  border-bottom: 1px solid #eee;
-  margin-bottom: 10px;
-}
-
-#chat-input {
-  display: flex;
-}
-
-#message-input {
-  flex-grow: 1;
-  padding: 2px;
-    width: 100%;
-}
-
-
-
-.notification {
-    background-color: lightblue;
-    padding: 5px;
-    margin-bottom: 5px;
-}
-
-#chat-history {
-    border: 1px solid #eee;
-    padding: 10px;
-    margin-top: 20px;
-    width: 300px;
-}
-
-#chat-history h3 {
-    margin-top: 0;
-}
-
-        
-        
-    </style>
-
-    
+    <title>Peter & Susie's Groovy Euro Adventure! 🚀</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-    <aside>owner side - site settings<br><br>
-
-<div>
-    <h3>Value of Cell A2:</h3>
-    <div id="a2-display">Loading...</div>
-</div>
-
-        <button id="createIzbaButton">Create room</button>
-        <button id="createwhatsapptemplate">Create whatsapp templates</button>
-        <button id="populateButton">Update Rooms</button> 
-        <button id="statisticsButton">Statistics</button>
-        <button id="excelButton" onclick="window.open('excel-file.html', '_blank');">excel</button>
-    <button id="roomSetupButton11">Room Setup</button>
+    <header>
+        <h1>Peter and Susie's Epic Trip to Prague, Bratislava, and Budapest!</h1>
+        <p class="funny">Because who says adventures are just for the young? Let's rock this old-school style! 🕺💃</p>
+    </header>
+    
+    <nav id="navigation">
+        <ul>
+            <li><a href="#" data-section="home">Home Sweet Home</a></li>
+            <li><a href="#" data-section="prague">Prague Magic</a></li>
+            <li><a href="#" data-section="bratislava">Bratislava Vibes</a></li>
+            <li><a href="#" data-section="budapest">Budapest Buzz</a></li>
+            <li><a href="#" data-section="tips">Tips & Shenanigans</a></li>
+            <li><a href="#" data-section="links">Handy Links</a></li>
+        </ul>
+    </nav>
+    
+    <main id="content">
+        <section id="home" class="active">
+            <h2>Welcome, Adventurers!</h2>
+            <p>Hey Peter and Susie! This is your one-stop funky guide to your 3-day stints in each city. Day 1: Arrive and chill. Days 2 & 3: Explore like pros. Day 4: Hop to the next spot. Focus on those twinkly Christmas markets – they're the real stars! 🎄</p>
+            <p class="funny">Pro tip: If you get lost, just follow the smell of hot wine. It never lies! 🍷</p>
+        </section>
         
-        <br>
-        <br>
-        calendar visibility
-<br><br><br><br><br><br>
-
+        <section id="prague">
+            <h2>Prague: The City of a Hundred Spires (and Tasty Bites)</h2>
+            <h3>Food to Try:</h3>
+            <ul>
+                <li>Utopenec (pickled sausage – sounds weird, tastes awesome!)</li>
+                <li>Vepřo-knedlo-zelo (pork, dumplings, cabbage – classic Czech comfort)</li>
+                <li>Nakládaný hermelín (marinated cheese – cheesy heaven)</li>
+            </ul>
+            <h3>Drinks to Sip:</h3>
+            <ul>
+                <li>Becherovka (herbal liqueur – warms you up!)</li>
+                <li>Hot wine (perfect for chilly evenings)</li>
+            </ul>
+            <h3>Places to Visit:</h3>
+            <p>Cafes, restaurants, historic buildings – wander the streets! (Add your faves here later)</p>
+            <h3>Christmas Market Focus:</h3>
+            <p>Head to Old Town Square for the massive tree, stalls with ornaments, and grilled sausages. Magical vibes all around! 🎅</p>
+            <p class="funny">Watch out for the astronomical clock – it might steal your time! ⏰</p>
+        </section>
         
-        <button id="TDLButton">&plus;</button>
-        <input type="text" id="TDL" placeholder="Add task to do list">
-    <table>
+        <section id="bratislava">
+            <h2>Bratislava: Slovakia's Hidden Gem</h2>
+            <h3>Food to Try:</h3>
+            <ul>
+                <li>Bryndzové halušky (potato dumplings with sheep cheese – national treasure!)</li>
+            </ul>
+            <h3>Drinks to Sip:</h3>
+            <ul>
+                <li>Zlatý Bažant beer (golden pheasant – crisp and local)</li>
+                <li>Hot wine (keeps the holiday spirit flowing)</li>
+            </ul>
+            <h3>Places to Visit:</h3>
+            <ul>
+                <li>Zlatý Bažant (brewery or pub? Cheers!)</li>
+                <li>Lačinka (add text later – maybe a cozy spot?)</li>
+                <li>Suvlaki (Greek twist in Slovakia? Add details!)</li>
+                <li>Slovak National Radio Building (architectural oddity – looks like an upside-down pyramid!)</li>
+            </ul>
+            <h3>Christmas Market Focus:</h3>
+            <p>Main Square market: Wooden huts, handmade crafts, lokše pancakes, and mulled wine. Cozy and less crowded than others! ❄️</p>
+            <p class="funny">If the radio building talks back, you've had too much Becherovka! 📻</p>
+        </section>
         
-    </table>
-
-
+        <section id="budapest">
+            <h2>Budapest: The Pearl of the Danube</h2>
+            <h3>Food to Try:</h3>
+            <p>Local specialties – maybe goulash or chimney cake? (Add more later!)</p>
+            <h3>Drinks to Sip:</h3>
+            <ul>
+                <li>Hot wine (universal holiday warmer)</li>
+                <li>Local beers or pálinka if you're brave!</li>
+            </ul>
+            <h3>Places to Visit:</h3>
+            <ul>
+                <li>Szimpla (ruin bar – quirky and fun!)</li>
+                <li>Michael Jackson Tree (a tree dedicated to MJ? Dance around it!)</li>
+            </ul>
+            <h3>Christmas Market Focus:</h3>
+            <p>Vörösmarty Square: Giant advent wreath, artisan gifts, kürtőskalács, and lights everywhere. Don't miss the basilica market too! 🌟</p>
+            <p class="funny">If you see MJ moonwalking by the tree, it's time for bed! 🌳🕺</p>
+        </section>
         
-    </aside>
-
-    
-<div id="content-area">
+        <section id="tips">
+            <h2>Tips & Advice: Don't Get Lost in Translation!</h2>
+            <ul>
+                <li>Wear comfy shoes – cobblestones are sneaky.</li>
+                <li>Learn "thank you": Děkuji (Prague), Ďakujem (Bratislava), Köszönöm (Budapest).</li>
+                <li>Christmas markets = crowds + pickpockets – keep wallets close!</li>
+                <li>Hydrate with water, not just hot wine. 😉</li>
+                <li>(Add more wisdom here later!)</li>
+            </ul>
+            <p class="funny">Remember: Getting lost is just unplanned adventure! 🗺️</p>
+        </section>
         
-<div id="top-section">
-
-        <div id="date-container">information panel
-        <label for="booking-date"></label>
-<button onclick="adjustDate(-1)">&minus;</button>
-        <input type="text" id="booking-date" value="01.Feb.2025" readonly>
-<button onclick="adjustDate(1)">&plus;</button>
-        </div>
-        
-        <div id="day-of-week"></div>
-    <div id="summary-container">
-                <h2></h2>
-                <ul id="guest-summary-list">
-                </ul>
-    </div>
- 
-</div>
+        <section id="links">
+            <h2>Recommended Links: Your Digital Lifelines</h2>
+            <ul>
+                <li><a href="https://www.cp.sk" target="_blank">cp.sk</a> - Slovak trains? Or Czech? Anyway, transport!</li>
+                <li><a href="https://mapy.cz" target="_blank">mapy.cz</a> - Maps for navigation (better than getting turned around).</li>
+                <li><a href="https://www.mp.ba" target="_blank">mp.ba</a> - Budapest public transport? Check it out!</li>
+            </ul>
+            <p class="funny">Click these if your map-reading skills are from the stone age! 🦕</p>
+        </section>
+    </main>
     
-
-<div id="req-but"></div> 
-
-
-
-
-
-<div id="roomSetupModal11" class="room-setup-modal11">
-    <div class="room-setup-modal-content11">
-    
-    <h2>Add/Edit Room</h2>
-    <label for="roomName11">Room Name:</label>
-    <span class="close11">&times;</span>
-    <input type="text" id="roomName11"><br>
-    <label for="maxGuests11">Max Guests:</label>
-    <input type="number" id="maxGuests11" min="1"><br><br>
-    <label for="roomNote11">Note:</label><br>
-    <textarea id="roomNote11" rows="4" cols="50"></textarea><br><br>
-    <button id="saveRoomButton11">Save Room</button>
-    <button id="cancelRoomButton11">Cancel</button>
-    <button id="addRoomButton11">Save and Add Another Room</button>
-    <button id="removeRoomButton11" style="display:none">Remove Room</button>
-
-  
-  </div>
-</div>
-
-<main id="mainSection11"></main>
-   
-<main>
-    
-<datatable>
-    <table>
-        <thead>
-            <tr>
-                <th>to do list</th>
-                <th>done</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-<tbody id="guestDataTableBody1"></tbody>
-    </table>
-</datatable>
-
-      
-      
-<datatable>
-    <table>
-        <thead>
-            <tr>
-                <th>Booking Date</th>
-                <th>Room Number</th>
-                <th>Guest Name</th>
-                <th>Number of Guests</th>
-                <th>nr of nights</th>
-                <th>price</th>
-                <th>payment status</th>
-                <th>platform</th>
-                <th>notes</th>
-            </tr>
-        </thead>
-<tbody id="guestDataTableBody"></tbody>
-  </table>
-
-
-</datatable>
-</main>
-
-    
-<h3>Sheet Data:</h3>
-<div id="sheet-data"></div>
-
-    
-  </div> 
-
-    <div id="right-aside">informative buttons for staff <br><br>
-        <button id="shopping-list">Shopping list</button>
-        <button id="recipes">Recipes</button>
-        <button id="LostAndFound">lost and found</button>
-        <button id="instructions">Instructions</button>
-        <button id="ticket-sales">Ski pass</button>
-
-        
-<div id="chat-container">
-    <div id="chat-input">
-    <input type="text" id="message-input" placeholder="Type your message...">
-    </div>
-    <div id="chat-messages"></div><br>
-</div>
-
-<div id="shoppingListContainer">
-        <h2>Shopping List</h2>
-        <textarea id="shoppingListText">Hi there,
-    Please bring more:
-
-    </textarea>
-        <div id="item-suggestions">
-            <button>Milk</button>
-            <button>Bread</button>
-            <button>Eggs</button>
-            <button>Cheese</button>
-            <button>...</button>
-            <button>honey</button>
-            <button>granola</button>
-            <button>pasta</button>
-            <button>flour</button>
-        </div><br>
-        <button id="sendButton">Send via WhatsApp</button>
-        <button id="closeButton">Close</button>
-</div>
-
-    
-<div id="request-creation-modal" class="modal" style="display: none;">
-    <h2>Create WhatsApp Button</h2>
-    <input type="text" id="new-button-text" placeholder="Button text">
-    <input type="text" id="new-pretext" placeholder="Message text">
-    <button id="create-request">Create</button>
-    <button id="cancel-request-creation">Cancel</button>
-    
-    <h3>Existing Buttons:</h3>
-    <div id="button-list"></div> <!-- Existing buttons show here -->
-</div>
-
-
-    
-      
-<script src="whatsapp-buttons.js"></script>
-<script src="shopping-list.js"></script>
-
-
-
-    
-
-<script src="to-do-button.js"></script>
-<script src="INS.js"></script>
-<script src="excel-file1.js"></script>
-    <script src="roomsetup1.js"></script>
-
-    <script src="chat.js"></script>
-    
-<script src="date.js"></script>
-
+    <script src="script.js"></script>
 </body>
 </html>
