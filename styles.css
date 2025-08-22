@@ -1,7 +1,3 @@
-/* -----------------------------
-   Fonts & Base Styles
------------------------------ */
-@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 
 body {
     font-family: 'Courier New', Courier, monospace;
@@ -16,16 +12,13 @@ html {
     scroll-behavior: smooth; 
 }
 
-/* -----------------------------
-   Header
------------------------------ */
 header {
     background: linear-gradient(90deg, #8b4513, #cd853f); /* fun retro gradient */
     color: white;
     text-align: center;
     padding: 25px 15px;
     border-bottom: 5px solid #cd853f;
-    font-family: 'Pacifico', cursive;
+    font-family: 'Nunito', sans-serif;
     box-shadow: 0 4px 6px rgba(0,0,0,0.2);
 }
 
@@ -42,7 +35,7 @@ h1 {
 }
 
 h2, h3 {
-    font-family: 'Pacifico', cursive;
+    font-family: 'Nunito', sans-serif;
     font-size: 20px;
     margin-top: 15px;
 }
@@ -137,7 +130,7 @@ ul {
     color: #5c4033;
     padding: 6px 10px;
     border-radius: 8px;
-    border: 1px dashed #cd853f;
+    border: 1px solid #cd853f;
     font-style: italic;
     margin: 8px 0;
 }
