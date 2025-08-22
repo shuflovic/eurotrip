@@ -178,14 +178,30 @@ tr:nth-child(odd) { background-color: #fff8dc; }
 @media (max-width: 768px) {
     #navigation {
         position: static;
-        width: 100%;    /* 👈 ensures no overflow */
+        width: 100%;
         height: auto;
         border-left: none;
         border-bottom: 3px solid #8b4513;
         top: auto;
         display: flex;
         justify-content: center;
+
+        /* Gradient for mobile nav */
+        background: linear-gradient(90deg, #deb887, #f5deb3);
     }
+
+    #navigation a {
+        background: rgba(255, 255, 255, 0.3); /* light button background */
+        color: #333; 
+        border: 1px solid #cd853f;
+    }
+
+    #navigation a:hover {
+        background: #cd853f;
+        color: white;
+    }
+
+
     
    body, html {
     overflow-x: hidden; /* removes horizontal scroll / right gap */
