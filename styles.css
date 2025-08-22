@@ -29,6 +29,13 @@ header {
     box-shadow: 0 4px 6px rgba(0,0,0,0.2);
 }
 
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap');
+
+h1, h2 {
+    font-family: 'Nunito', sans-serif;
+}
+
 h1 {
     font-size: 26px;
     margin: 0;
