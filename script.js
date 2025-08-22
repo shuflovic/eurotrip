@@ -3,12 +3,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const sections = document.querySelectorAll('#content section');
     const backButton = document.getElementById('backButton');
 
-    function showSection(sectionId) {
-        sections.forEach(section => section.classList.remove('active'));
-        const target = document.getElementById(sectionId);
-        if (target) target.classList.add('active');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+function showSection(sectionId) {
+    sections.forEach(section => section.classList.remove('active'));
+    const target = document.getElementById(sectionId);
+    if (target) {
+        target.classList.add('active');
+
+        // Scroll to the section smoothly
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        window.scrollBy(0, -60); // adjust 60px if your nav is taller
+
     }
+}
+
 
     // Navigation links
     links.forEach(link => {
