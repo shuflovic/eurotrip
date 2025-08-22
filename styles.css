@@ -54,9 +54,12 @@ p, ul {
 }
 
 .funny {
-    font-style: italic;
-    color: #ff4500; /* Orangey fun */
+  background-color: #ffefcc; /* light orange highlight */
+  color: #5c4033; /* dark brown text */
+  padding: 2px 4px;
+  border-radius: 4px;
 }
+
 
 #navigation {
     position: fixed;
