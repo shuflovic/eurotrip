@@ -87,9 +87,10 @@ h2::after {
     padding: 20px;
     background-color: white;
     border: 3px solid #8b4513;
-    border-radius: 12px;
-    box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+    margin-right: 220px; /* 👈 this keeps content clear of nav */
 }
+
 
 /* Section Fade-in Animation */
 section {
@@ -177,13 +178,18 @@ tr:nth-child(odd) { background-color: #fff8dc; }
 @media (max-width: 768px) {
     #navigation {
         position: static;
-        width: 100%;
+        width: 100%;    /* 👈 ensures no overflow */
         height: auto;
         border-left: none;
         border-bottom: 3px solid #8b4513;
+        top: auto;
         display: flex;
         justify-content: center;
     }
+    
+   body, html {
+    overflow-x: hidden; /* removes horizontal scroll / right gap */
+}
 
     #navigation ul {
         display: flex;
