@@ -218,8 +218,13 @@ tr:nth-child(odd) { background-color: #fff8dc; }
     }
 
     #navigation a {
-        padding: 5px;
-        font-size: 14px;
+        background: rgba(255, 255, 255, 0.3);
+        color: #333;
+        border: 1px solid #cd853f;
+        padding: 14px 18px;
+        font-size: 18px;
+        font-weighy: bold;
+        
     }
 
     #content {
@@ -241,7 +246,4 @@ tr:nth-child(odd) { background-color: #fff8dc; }
     }
 }
 
-
-
 }
-
