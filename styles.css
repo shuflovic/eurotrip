@@ -7,6 +7,17 @@ body {
     line-height: 1.5;
 }
 
+#footer {
+    background-color: #5c4033;   /* dark brown */
+    color: #f5f5dc;              /* beige text */
+    text-align: center;
+    font-size: 0.9em;
+    padding: 12px;
+    margin-top: 20px;
+    border-top: 2px solid #8b4513;  /* subtle retro border */
+}
+
+
 table {
   width: 100%;
   border-collapse: collapse;
