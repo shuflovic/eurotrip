@@ -237,8 +237,8 @@ tr:nth-child(odd) { background-color: #fff8dc; }
         background: rgba(255, 255, 255, 0.3);
         color: #333;
         border: 1px solid #cd853f;
-        padding: 14px 18px;
-        font-size: 18px;
+        padding: 10px 14px;
+        font-size: 16px;
         font-weighy: bold;
         
     }
