@@ -179,13 +179,13 @@ tr:nth-child(odd) { background-color: #fff8dc; }
    Footer
 ----------------------------- */
 #footer {
-    background-color: #5c4033;
+    background: linear-gradient(90deg, #8b4513, #cd853f); /* fun retro gradient */
     color: #f5f5dc;
     text-align: center;
-    font-size: 0.9em;
+    font-size: 1em;
     padding: 14px;
-    margin-top: 20px;
-    border-top: 2px solid #8b4513;
+    margin-top: 15px;
+    border-top: 5px solid #cd853f;
 }
 
 /* -----------------------------
