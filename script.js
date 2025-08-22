@@ -2,22 +2,24 @@ document.addEventListener('DOMContentLoaded', function() {
     const links = document.querySelectorAll('#navigation a');
     const sections = document.querySelectorAll('#content section');
     const backButton = document.getElementById('backButton');
+    const nav = document.getElementById('navigation');
 
-function showSection(sectionId) {
-    sections.forEach(section => section.classList.remove('active'));
-    const target = document.getElementById(sectionId);
-    if (target) {
+    // Show section and scroll into view with offset for nav
+    function showSection(sectionId) {
+        sections.forEach(section => section.classList.remove('active'));
+        const target = document.getElementById(sectionId);
+        if (!target) return;
+
         target.classList.add('active');
 
-        // Scroll to the section smoothly
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        window.scrollBy(0, -60); // adjust 60px if your nav is taller
+        // Calculate scroll position, offset by nav height
+        const navHeight = nav ? nav.offsetHeight : 0;
+        const topPos = target.getBoundingClientRect().top + window.scrollY - navHeight - 10;
 
+        window.scrollTo({ top: topPos, behavior: 'smooth' });
     }
-}
 
-
-    // Navigation links
+    // Handle nav clicks
     links.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
@@ -26,7 +28,7 @@ function showSection(sectionId) {
         });
     });
 
-    // Back to Home button
+    // Handle Back to Home button
     if (backButton) {
         backButton.addEventListener('click', function(e) {
             e.preventDefault();
@@ -34,10 +36,27 @@ function showSection(sectionId) {
         });
     }
 
+    // Optional: highlight active menu item
+    function highlightActive(sectionId) {
+        links.forEach(link => {
+            link.classList.remove('active-link');
+            if (link.getAttribute('data-section') === sectionId) {
+                link.classList.add('active-link');
+            }
+        });
+    }
+
+    // Enhance showSection to highlight menu
+    const originalShowSection = showSection;
+    showSection = function(sectionId) {
+        originalShowSection(sectionId);
+        highlightActive(sectionId);
+    };
+
     // Show home by default
     showSection('home');
 
-    // Set current year in footer
+    // Footer year
     const currentYear = new Date().getFullYear();
     const yearElem = document.getElementById("year");
     if (yearElem) yearElem.textContent = currentYear;
