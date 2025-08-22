@@ -22,4 +22,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Show home by default
     showSection('home');
+
+
+  // Get the current year
+  const currentYear = new Date().getFullYear();
+  document.getElementById("year").textContent = currentYear;
+
+
 });
