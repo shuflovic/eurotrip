@@ -214,7 +214,10 @@ tr:nth-child(odd) { background-color: #fff8dc; }
         padding: 20px 15px;
     }
 
-    h1 { font-size: 22px; }
-    h2 { font-size: 18px; }
-    p, ul { font-size: 14px; }
+
+    hh1 { font-size: 22px; }
+    hh2 { font-size: 18px; }
+    hp, hul { font-size: 14px; }
+
 }
+
