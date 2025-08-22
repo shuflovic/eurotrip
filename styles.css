@@ -18,15 +18,7 @@ header {
     text-align: center;
     padding: 25px 15px;
     border-bottom: 5px solid #cd853f;
-    font-family: 'Nunito', sans-serif;
     box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-}
-
-
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap');
-
-h1, h2 {
-    font-family: 'Nunito', sans-serif;
 }
 
 h1 {
@@ -35,7 +27,6 @@ h1 {
 }
 
 h2, h3 {
-    font-family: 'Nunito', sans-serif;
     font-size: 20px;
     margin-top: 15px;
 }
