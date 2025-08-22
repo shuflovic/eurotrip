@@ -196,14 +196,28 @@ tr:nth-child(odd) { background-color: #fff8dc; }
     }
 
     #navigation a {
-        padding: 10px;
+        padding: 5px;
         font-size: 14px;
     }
 
     #content {
-        margin: 10px;
-        padding: 20px 15px;
+        margin: 5px;
+        padding: 5px 5px;
     }
+
+    h1 {
+        font-size: 28px;   /* was 20px */
+    }
+
+    h2 {
+        font-size: 24px;   /* was 18px */
+    }
+
+    p, ul {
+        font-size: 18px;   /* was 14px */
+        line-height: 1.6;  /* add breathing space */
+    }
+}
 
 
 
