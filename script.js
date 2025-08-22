@@ -5,19 +5,22 @@ document.addEventListener('DOMContentLoaded', function() {
     const nav = document.getElementById('navigation');
 
     // Show section and scroll into view with offset for nav
-    function showSection(sectionId) {
-        sections.forEach(section => section.classList.remove('active'));
-        const target = document.getElementById(sectionId);
-        if (!target) return;
+function showSection(sectionId) {
+    sections.forEach(section => section.classList.remove('active'));
+    const target = document.getElementById(sectionId);
+    if (!target) return;
 
-        target.classList.add('active');
+    target.classList.add('active');
 
-        // Calculate scroll position, offset by nav height
+    // Scroll to top for home section, otherwise apply offset
+    if (sectionId === 'home') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
         const navHeight = nav ? nav.offsetHeight : 0;
         const topPos = target.getBoundingClientRect().top + window.scrollY - navHeight - 10;
-
         window.scrollTo({ top: topPos, behavior: 'smooth' });
     }
+}
 
     // Handle nav clicks
     links.forEach(link => {
