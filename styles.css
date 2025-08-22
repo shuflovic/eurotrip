@@ -51,9 +51,18 @@ header {
     border-bottom: 5px solid #cd853f; /* Retro border */
 }
 
-h1, h2, h3 {
-    font-family: 'Courier New', Courier, monospace;
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+h1, h2 {
+    font-family: 'Pacifico', cursive;
     text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+
+h3 {
+    font-family: 'Courier New', Courier, monospace;
+    text-transform: none;
     letter-spacing: 2px;
 }
 
