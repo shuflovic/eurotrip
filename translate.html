@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slovak Translator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+  <style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+}
+
+h1 {
+    color: #333;
+}
+
+.search-box {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+#englishInput {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 70%;
+    margin-right: 10px;
+}
+
+#translateButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#translateButton:hover {
+    background-color: #0056b3;
+}
+
+#results {
+    margin-top: 20px;
+    text-align: left;
+    min-height: 100px; /* Gives some space for results */
+}
+
+#results h3 {
+    color: #555;
+    margin-bottom: 10px;
+}
+
+#results p {
+    margin: 5px 0;
+    line-height: 1.6;
+}
+  </style>
+<body>
+
+    <div class="container">
+        <h1>Dynamic Slovak Translator</h1>
+        <div class="search-box">
+            <input type="text" id="englishInput" placeholder="Enter an English word or phrase...">
+            <button id="translateButton">Translate</button>
+        </div>
+        
+        <div id="results">
+            </div>
+    </div>
+
+    <script>
+      
+    document.addEventListener('DOMContentLoaded', () => {
+
+    const inputField = document.getElementById('englishInput');
+    const translateButton = document.getElementById('translateButton');
+    const resultsDiv = document.getElementById('results');
+
+    // **IMPORTANT:** Replace these with your actual API details
+    const API_KEY = ''; 
+    const API_URL = 'https://api.example.com/translate'; // This URL is just an example
+
+    async function performTranslation() {
+        const textToTranslate = inputField.value.trim();
+        
+        if (textToTranslate === '') {
+            resultsDiv.innerHTML = '<p>Please enter text to translate.</p>';
+            return;
+        }
+
+        resultsDiv.innerHTML = '<p>Translating...</p>';
+
+        try {
+            // Construct the request URL with query parameters
+            const response = await fetch(`${API_URL}?key=${API_KEY}&q=${encodeURIComponent(textToTranslate)}&source=en&target=sk`);
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            
+            // Assuming the API response structure is like this:
+            // { "data": { "translations": [{ "translatedText": "Translated text", "pronunciation": "Pronunciation guide" }] } }
+            const translationData = data.data.translations[0];
+            const translatedText = translationData.translatedText;
+            const pronunciationGuide = translationData.pronunciation || 'Pronunciation not available.';
+
+            const resultHTML = `
+                <h3>Translation Result</h3>
+                <p><strong>English:</strong> ${textToTranslate}</p>
+                <p><strong>Slovak:</strong> ${translatedText}</p>
+                <p><strong>Pronunciation:</strong> ${pronunciationGuide}</p>
+            `;
+            
+            resultsDiv.innerHTML = resultHTML;
+
+        } catch (error) {
+            console.error('Translation failed:', error);
+            resultsDiv.innerHTML = `<p>Error: Translation could not be completed. Please check the console for details.</p>`;
+        }
+    }
+
+    translateButton.addEventListener('click', performTranslation);
+    inputField.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            performTranslation();
+        }
+    });
+
+});
+    </script>
+</body>
+</html>
