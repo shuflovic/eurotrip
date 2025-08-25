@@ -7,7 +7,9 @@ body {
     padding: 0;
     line-height: 1.5;
 }
-
+a {
+    text-decoration: none;
+}
 a.back {
   display: inline-block;
   margin-top: 15px;
