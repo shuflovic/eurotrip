@@ -103,7 +103,7 @@ h2::after {
     margin: 20px auto;
     max-width: 800px;
     padding: 20px;
-     background: linear-gradient(180deg, #deb887, #f5deb3); /* light retro beige-brown */
+    /*background: linear-gradient(180deg, #deb887, #f5deb3); /* light retro beige-brown */
     border: 3px solid #8b4513;
     box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
     margin-right: 220px; /* 👈 this keeps content clear of nav */
