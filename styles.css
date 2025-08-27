@@ -199,7 +199,7 @@ tr:nth-child(odd) { background-color: #fff8dc; }
         width: 100%;
         height: auto;
         border-left: none;
-        border-bottom: 3px solid #8b4513;
+        /*border-bottom: 3px solid #8b4513;*/
         top: auto;
         display: flex;
         justify-content: center;
@@ -219,8 +219,6 @@ tr:nth-child(odd) { background-color: #fff8dc; }
         color: white;
     }
 
-
-    
    body, html {
     overflow-x: hidden; /* removes horizontal scroll / right gap */
 }
@@ -239,7 +237,7 @@ tr:nth-child(odd) { background-color: #fff8dc; }
         background: rgba(255, 255, 255, 0.3);
         color: #333;
         border: 1px solid #cd853f;
-        padding: 10px 14px;
+        padding: 10px 10px;
         font-size: 16px;
         font-weighy: bold;
         
