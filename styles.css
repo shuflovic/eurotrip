@@ -245,7 +245,7 @@ tr:nth-child(odd) { background-color: #fff8dc; }
 
     #content {
         margin: 4px;
-        padding: 4px 4px;
+        padding: 10px 10px;
     }
 
     h1 {
