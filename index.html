@@ -5,159 +5,368 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reading Bingo 2026</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap');
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a2e;
+            --accent-cyan: #00f5d4;
+            --accent-purple: #9d4edd;
+            --accent-gold: #ffd700;
+            --text-primary: #e0e0e0;
+            --text-secondary: #8888a0;
+            --border-glow: rgba(0, 245, 212, 0.3);
+        }
+
         body {
-            font-family: 'Georgia', serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
             min-height: 100vh;
             padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background grid */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 245, 212, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 245, 212, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1000px;
             width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header with book spine aesthetic */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+            border: 1px solid rgba(0, 245, 212, 0.2);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 40px rgba(0, 245, 212, 0.1);
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 8px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--accent-cyan), var(--accent-purple));
+            box-shadow: 0 0 20px var(--accent-cyan);
         }
 
         h1 {
-            text-align: center;
-            color: white;
-            font-size: 2.5em;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3em;
+            font-weight: 900;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple), var(--accent-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-transform: uppercase;
+            letter-spacing: 4px;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 0 0 30px rgba(0, 245, 212, 0.5);
         }
 
         .subtitle {
-            text-align: center;
-            color: rgba(255,255,255,0.9);
-            font-size: 1.2em;
-            margin-bottom: 30px;
+            color: var(--text-secondary);
+            font-size: 1.1em;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 300;
         }
 
+        .subtitle::before,
+        .subtitle::after {
+            content: '◆';
+            color: var(--accent-cyan);
+            margin: 0 15px;
+            font-size: 0.6em;
+            vertical-align: middle;
+        }
+
+        /* Bingo Grid - Futuristic book pages */
         .bingo-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            gap: 12px;
+            background: var(--bg-secondary);
+            padding: 25px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 245, 212, 0.15);
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.8),
+                inset 0 0 60px rgba(0, 245, 212, 0.05);
+            position: relative;
+        }
+
+        .bingo-grid::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--accent-cyan), var(--accent-purple), var(--accent-cyan));
+            border-radius: 22px;
+            z-index: -1;
+            opacity: 0.3;
+            filter: blur(10px);
         }
 
         .bingo-cell {
             aspect-ratio: 1;
-            border: 3px solid #667eea;
-            border-radius: 10px;
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 245, 212, 0.2);
+            border-radius: 12px;
             padding: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            font-size: 0.85em;
+            font-size: 0.8em;
+            color: var(--text-primary);
             cursor: pointer;
-            transition: all 0.3s ease;
-            background: white;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
+            font-weight: 400;
+            line-height: 1.4;
+        }
+
+        /* Book page corner effect */
+        .bingo-cell::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 20px 20px 0;
+            border-color: transparent rgba(0, 245, 212, 0.1) transparent transparent;
+            transition: all 0.3s ease;
         }
 
         .bingo-cell:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            transform: translateY(-3px) scale(1.02);
+            border-color: var(--accent-cyan);
+            box-shadow: 
+                0 10px 30px rgba(0, 245, 212, 0.2),
+                inset 0 0 20px rgba(0, 245, 212, 0.05);
         }
 
+        .bingo-cell:hover::before {
+            border-width: 0 30px 30px 0;
+            border-color: transparent rgba(0, 245, 212, 0.3) transparent transparent;
+        }
+
+        /* Completed state - holographic effect */
         .bingo-cell.completed {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-color: #764ba2;
+            background: linear-gradient(135deg, rgba(0, 245, 212, 0.15), rgba(157, 78, 221, 0.15));
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+            font-weight: 600;
+            box-shadow: 
+                0 0 20px rgba(0, 245, 212, 0.3),
+                inset 0 0 20px rgba(0, 245, 212, 0.1);
         }
 
         .bingo-cell.completed::after {
             content: '✓';
             position: absolute;
-            top: 5px;
-            right: 10px;
-            font-size: 1.5em;
-            font-weight: bold;
+            top: 8px;
+            right: 8px;
+            font-size: 1.2em;
+            color: var(--accent-cyan);
+            text-shadow: 0 0 10px var(--accent-cyan);
+            animation: pulse 2s infinite;
         }
 
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Free space - special edition */
         .bingo-cell.free {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
-            font-weight: bold;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(157, 78, 221, 0.2));
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 1.1em;
+            letter-spacing: 2px;
             cursor: default;
-            font-size: 1.2em;
+            box-shadow: 
+                0 0 30px rgba(255, 215, 0, 0.2),
+                inset 0 0 30px rgba(255, 215, 0, 0.1);
         }
 
         .bingo-cell.free:hover {
             transform: none;
+            box-shadow: 
+                0 0 30px rgba(255, 215, 0, 0.2),
+                inset 0 0 30px rgba(255, 215, 0, 0.1);
+        }
+
+        /* Bingo line highlight */
+        .bingo-line {
+            border-color: var(--accent-gold) !important;
+            box-shadow: 
+                0 0 30px rgba(255, 215, 0, 0.4),
+                inset 0 0 30px rgba(255, 215, 0, 0.1) !important;
+            animation: goldPulse 2s infinite;
+        }
+
+        @keyframes goldPulse {
+            0%, 100% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.4), inset 0 0 30px rgba(255, 215, 0, 0.1); }
+            50% { box-shadow: 0 0 50px rgba(255, 215, 0, 0.6), inset 0 0 40px rgba(255, 215, 0, 0.2); }
+        }
+
+        /* Progress bar - futuristic */
+        .progress-container {
+            margin-top: 30px;
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(0, 245, 212, 0.2);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            color: var(--text-secondary);
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .progress-value {
+            color: var(--accent-cyan);
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
         }
 
         .progress-bar {
-            margin-top: 20px;
-            background: rgba(255,255,255,0.3);
-            border-radius: 20px;
-            padding: 5px;
-            backdrop-filter: blur(10px);
+            height: 8px;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
         }
 
         .progress-fill {
-            height: 30px;
-            background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);
-            border-radius: 15px;
-            transition: width 0.5s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            min-width: 40px;
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+            border-radius: 4px;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            box-shadow: 0 0 20px var(--accent-cyan);
         }
 
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Controls */
         .controls {
-            margin-top: 20px;
-            text-align: center;
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
         }
 
         button {
-            background: white;
-            color: #667eea;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 25px;
-            font-size: 1em;
+            background: transparent;
+            color: var(--accent-cyan);
+            border: 1px solid var(--accent-cyan);
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-size: 0.9em;
             cursor: pointer;
-            margin: 0 10px;
             transition: all 0.3s ease;
-            font-weight: bold;
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 245, 212, 0.2), transparent);
+            transition: left 0.5s ease;
         }
 
         button:hover {
+            background: rgba(0, 245, 212, 0.1);
+            box-shadow: 0 0 30px rgba(0, 245, 212, 0.3);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
-        @media (max-width: 768px) {
-            .bingo-cell {
-                font-size: 0.6em;
-                padding: 8px;
-            }
+        button:hover::before {
+            left: 100%;
+        }
 
-            h1 {
-                font-size: 2em;
-            }
+        button.secondary {
+            color: var(--accent-purple);
+            border-color: var(--accent-purple);
+        }
 
-            .bingo-grid {
-                gap: 5px;
-                padding: 8px;
-            }
+        button.secondary:hover {
+            background: rgba(157, 78, 221, 0.1);
+            box-shadow: 0 0 30px rgba(157, 78, 221, 0.3);
         }
 
         /* Celebration Overlay */
@@ -167,7 +376,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(10px);
             display: none;
             justify-content: center;
             align-items: center;
@@ -186,78 +396,181 @@
 
         .celebration-content {
             text-align: center;
-            color: white;
-            animation: bounceIn 0.6s ease;
+            color: var(--text-primary);
+            animation: scaleIn 0.5s ease;
+            padding: 40px;
+            border: 1px solid var(--accent-cyan);
+            border-radius: 20px;
+            background: var(--bg-card);
+            box-shadow: 0 0 60px rgba(0, 245, 212, 0.3);
         }
 
-        @keyframes bounceIn {
-            0% { transform: scale(0); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+        @keyframes scaleIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
         .celebration-content h2 {
-            font-size: 5em;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4em;
             margin-bottom: 20px;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 40px rgba(0, 245, 212, 0.5);
         }
 
         .celebration-content p {
-            font-size: 2em;
+            font-size: 1.5em;
+            color: var(--text-secondary);
             margin-bottom: 30px;
+            letter-spacing: 1px;
         }
 
-        .celebration-content button {
-            font-size: 1.2em;
-            padding: 15px 40px;
-        }
-
-        /* Confetti */
+        /* Digital confetti */
         .confetti {
             position: fixed;
-            width: 10px;
-            height: 10px;
-            background: #f0f;
+            width: 8px;
+            height: 8px;
+            background: var(--accent-cyan);
             position: absolute;
             animation: confetti-fall 3s linear forwards;
+            box-shadow: 0 0 10px currentColor;
         }
 
         @keyframes confetti-fall {
             to {
-                transform: translateY(100vh) rotate(360deg);
+                transform: translateY(100vh) rotate(720deg);
                 opacity: 0;
             }
         }
 
-        .bingo-line {
-            border-color: gold !important;
-            border-width: 4px !important;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+        /* Floating book particles */
+        .book-particle {
+            position: fixed;
+            font-size: 24px;
+            opacity: 0.1;
+            animation: float 10s infinite ease-in-out;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+                letter-spacing: 2px;
+            }
+
+            .bingo-cell {
+                font-size: 0.65em;
+                padding: 8px;
+            }
+
+            .bingo-grid {
+                gap: 8px;
+                padding: 15px;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            button {
+                width: 200px;
+            }
+        }
+
+        /* Stats display */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-box {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 245, 212, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2em;
+            color: var(--accent-cyan);
+            font-weight: 700;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.8em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
         }
     </style>
 </head>
 <body>
+    <!-- Floating book particles -->
+    <div class="book-particle" style="top: 10%; left: 5%; animation-delay: 0s;">📖</div>
+    <div class="book-particle" style="top: 20%; right: 10%; animation-delay: 2s;">📚</div>
+    <div class="book-particle" style="top: 60%; left: 8%; animation-delay: 4s;">📘</div>
+    <div class="book-particle" style="top: 70%; right: 5%; animation-delay: 6s;">📕</div>
+    <div class="book-particle" style="top: 40%; left: 3%; animation-delay: 8s;">📗</div>
+
     <div class="container">
-        <h1>2026 Reading Bingo</h1>
-        <p class="subtitle">READ A BOOK</p>
+        <div class="header">
+            <h1>Reading Bingo 2026</h1>
+            <p class="subtitle">Archive Your Literary Journey</p>
+        </div>
         
         <div class="bingo-grid" id="bingoGrid"></div>
         
-        <div class="progress-bar">
-            <div class="progress-fill" id="progressBar">0/24</div>
+        <div class="progress-container">
+            <div class="progress-header">
+                <span>Reading Progress</span>
+                <span class="progress-value" id="progressText">0/24</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+            </div>
+            <div class="stats">
+                <div class="stat-box">
+                    <div class="stat-value" id="bingoCount">0</div>
+                    <div class="stat-label">Bingos</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="percentComplete">0%</div>
+                    <div class="stat-label">Complete</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="booksLeft">24</div>
+                    <div class="stat-label">Remaining</div>
+                </div>
+            </div>
         </div>
 
         <div class="controls">
-            <button onclick="resetBingo()">Reset All</button>
-            <button onclick="shareProgress()">Share Progress</button>
+            <button onclick="resetBingo()">Reset Archive</button>
+            <button class="secondary" onclick="shareProgress()">Transmit Data</button>
         </div>
     </div>
 
     <div class="celebration-overlay" id="celebrationOverlay">
         <div class="celebration-content">
-            <h2>🍾 BINGO! 🍾</h2>
-            <p id="bingoMessage">You completed a line!</p>
-            <button onclick="closeCelebration()">Keep Reading! 📖</button>
+            <h2>◆ BINGO ◆</h2>
+            <p id="bingoMessage">Sequence Complete</p>
+            <button onclick="closeCelebration()">Continue Reading</button>
         </div>
     </div>
 
@@ -303,7 +616,7 @@
                 
                 if (task === 'FREE') {
                     cell.classList.add('free');
-                    cell.textContent = task;
+                    cell.textContent = '★ FREE ★';
                 } else {
                     cell.textContent = task;
                     cell.dataset.index = index;
@@ -341,7 +654,6 @@
             completedCells.forEach(index => {
                 grid[index] = true;
             });
-            // Center is always complete (FREE)
             grid[12] = true;
 
             const newBingos = [];
@@ -368,7 +680,7 @@
                 }
             }
 
-            // Check diagonal (top-left to bottom-right)
+            // Check diagonals
             if ([0, 6, 12, 18, 24].every(i => grid[i])) {
                 const bingoKey = 'diag-1';
                 if (!celebratedBingos.includes(bingoKey)) {
@@ -376,7 +688,6 @@
                 }
             }
 
-            // Check diagonal (top-right to bottom-left)
             if ([4, 8, 12, 16, 20].every(i => grid[i])) {
                 const bingoKey = 'diag-2';
                 if (!celebratedBingos.includes(bingoKey)) {
@@ -390,37 +701,34 @@
         }
 
         function celebrate(bingos) {
-            // Add to celebrated list
             bingos.forEach(bingo => {
                 celebratedBingos.push(bingo.key);
             });
             localStorage.setItem('celebratedBingos', JSON.stringify(celebratedBingos));
 
-            // Create confetti
             createConfetti();
 
-            // Show celebration message
             const overlay = document.getElementById('celebrationOverlay');
             const message = document.getElementById('bingoMessage');
             
             if (bingos.length === 1) {
                 const bingo = bingos[0];
                 if (bingo.type === 'row') {
-                    message.textContent = `You completed Row ${bingo.number}!`;
+                    message.textContent = `Row ${bingo.number} Sequence Complete`;
                 } else if (bingo.type === 'column') {
-                    message.textContent = `You completed Column ${bingo.number}!`;
+                    message.textContent = `Column ${bingo.number} Sequence Complete`;
                 } else {
-                    message.textContent = `You completed a Diagonal!`;
+                    message.textContent = `Diagonal Sequence Complete`;
                 }
             } else {
-                message.textContent = `You completed ${bingos.length} lines at once! Amazing!`;
+                message.textContent = `${bingos.length} Sequences Completed Simultaneously`;
             }
             
             overlay.classList.add('active');
         }
 
         function createConfetti() {
-            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#ffa07a', '#98d8c8', '#f7dc6f', '#bb8fce', '#85c1e2'];
+            const colors = ['#00f5d4', '#9d4edd', '#ffd700', '#ff6b6b', '#4ecdc4'];
             const confettiCount = 100;
 
             for (let i = 0; i < confettiCount; i++) {
@@ -428,13 +736,14 @@
                     const confetti = document.createElement('div');
                     confetti.className = 'confetti';
                     confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.top = '-10px';
                     confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
                     confetti.style.animationDelay = Math.random() * 0.5 + 's';
                     confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
                     document.body.appendChild(confetti);
 
-                    setTimeout(() => confetti.remove(), 3000);
-                }, i * 20);
+                    setTimeout(() => confetti.remove(), 4000);
+                }, i * 15);
             }
         }
 
@@ -447,11 +756,11 @@
             completedCells.forEach(index => {
                 grid[index] = true;
             });
-            grid[12] = true; // FREE space
+            grid[12] = true;
 
             const cells = document.querySelectorAll('.bingo-cell');
 
-            // Check and highlight rows
+            // Check rows
             for (let row = 0; row < 5; row++) {
                 const start = row * 5;
                 if (grid.slice(start, start + 5).every(cell => cell)) {
@@ -461,7 +770,7 @@
                 }
             }
 
-            // Check and highlight columns
+            // Check columns
             for (let col = 0; col < 5; col++) {
                 if ([0, 1, 2, 3, 4].every(row => grid[row * 5 + col])) {
                     for (let row = 0; row < 5; row++) {
@@ -470,7 +779,7 @@
                 }
             }
 
-            // Check and highlight diagonals
+            // Check diagonals
             if ([0, 6, 12, 18, 24].every(i => grid[i])) {
                 [0, 6, 12, 18, 24].forEach(i => cells[i].classList.add('bingo-line'));
             }
@@ -481,17 +790,19 @@
         }
 
         function updateProgress() {
-            const total = bingoTasks.length - 1; // excluding FREE space
+            const total = bingoTasks.length - 1;
             const completed = completedCells.length;
-            const percentage = (completed / total) * 100;
+            const percentage = Math.round((completed / total) * 100);
             
-            const progressBar = document.getElementById('progressBar');
-            progressBar.style.width = percentage + '%';
-            progressBar.textContent = `${completed}/${total}`;
+            document.getElementById('progressBar').style.width = percentage + '%';
+            document.getElementById('progressText').textContent = `${completed}/${total}`;
+            document.getElementById('bingoCount').textContent = celebratedBingos.length;
+            document.getElementById('percentComplete').textContent = percentage + '%';
+            document.getElementById('booksLeft').textContent = total - completed;
         }
 
         function resetBingo() {
-            if (confirm('Are you sure you want to reset all progress?')) {
+            if (confirm('Initialize system reset? All progress will be archived.')) {
                 completedCells = [];
                 celebratedBingos = [];
                 localStorage.removeItem('bingoProgress');
@@ -505,34 +816,27 @@
                 completedCells.includes(index) && task !== 'FREE'
             );
             
-            let message = `📚 2026 Reading Bingo Progress 📚\n\n`;
-            message += `Completed: ${completedCells.length}/24 books\n\n`;
+            let message = `📚 READING BINGO 2026 - DATA TRANSMISSION 📚\n\n`;
+            message += `Progress: ${completedCells.length}/24 books archived\n`;
+            message += `Bingo Lines: ${celebratedBingos.length}\n\n`;
             
             if (completed.length > 0) {
-                message += `Books read:\n`;
+                message += `Completed Tasks:\n`;
                 completed.forEach(task => {
-                    message += `✓ ${task}\n`;
+                    message += `◆ ${task}\n`;
                 });
             }
             
-            const bingoCount = celebratedBingos.length;
-            if (bingoCount > 0) {
-                message += `\n🍾 BINGO Lines Completed: ${bingoCount}`;
-            }
+            message += `\nSystem: https://shuflovic.github.io/bingo-reading-cart/`;
             
-            message += `\n\nTrack your reading: https://shuflovic.github.io/bingo-reading-cart/`;
-            
-            // Try to use Web Share API if available (mobile devices)
             if (navigator.share) {
                 navigator.share({
-                    title: '2026 Reading Bingo Progress',
+                    title: 'Reading Bingo 2026 Progress',
                     text: message
-                }).catch(err => {
-                    // If user cancels share, just copy to clipboard
+                }).catch(() => {
                     copyToClipboard(message);
                 });
             } else {
-                // Fallback: copy to clipboard
                 copyToClipboard(message);
             }
         }
@@ -540,9 +844,8 @@
         function copyToClipboard(text) {
             if (navigator.clipboard) {
                 navigator.clipboard.writeText(text).then(() => {
-                    alert('Progress copied to clipboard! You can now paste it anywhere to share.');
+                    alert('Data transmitted to clipboard successfully.');
                 }).catch(() => {
-                    // Fallback for older browsers
                     fallbackCopy(text);
                 });
             } else {
@@ -559,15 +862,13 @@
             textArea.select();
             try {
                 document.execCommand('copy');
-                alert('Progress copied to clipboard! You can now paste it anywhere to share.');
+                alert('Data transmitted to clipboard successfully.');
             } catch (err) {
-                // If all else fails, just show the text
                 alert(text);
             }
             document.body.removeChild(textArea);
         }
 
-        // Initialize on load
         initBingo();
     </script>
 </body>
