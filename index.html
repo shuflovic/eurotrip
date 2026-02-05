@@ -146,7 +146,7 @@
 
         @media (max-width: 768px) {
             .bingo-cell {
-                font-size: 0.6em;
+                font-size: 0.7em;
                 padding: 8px;
             }
 
@@ -159,11 +159,86 @@
                 padding: 10px;
             }
         }
+
+        /* Celebration Overlay */
+        .celebration-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .celebration-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .celebration-content {
+            text-align: center;
+            color: white;
+            animation: bounceIn 0.6s ease;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .celebration-content h2 {
+            font-size: 5em;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .celebration-content p {
+            font-size: 2em;
+            margin-bottom: 30px;
+        }
+
+        .celebration-content button {
+            font-size: 1.2em;
+            padding: 15px 40px;
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #f0f;
+            position: absolute;
+            animation: confetti-fall 3s linear forwards;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .bingo-line {
+            border-color: gold !important;
+            border-width: 4px !important;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>📚2026 Reading Bingo📚</h1>
+        <h2>📚 2026 Reading Challenge</h2>
         <p class="subtitle">READ A BOOK</p>
         
         <div class="bingo-grid" id="bingoGrid"></div>
@@ -175,6 +250,14 @@
         <div class="controls">
             <button onclick="resetBingo()">Reset All</button>
             <button onclick="exportProgress()">Save Progress</button>
+        </div>
+    </div>
+
+    <div class="celebration-overlay" id="celebrationOverlay">
+        <div class="celebration-content">
+            <h2>🍾 BINGO! 🍾</h2>
+            <p id="bingoMessage">You completed a line!</p>
+            <button onclick="closeCelebration()">Keep Reading! 📖</button>
         </div>
     </div>
 
@@ -200,7 +283,7 @@
             "Unread book",
             "You can't pronounce the author's name",
             "You can finish in a day",
-            "Large one (over 700p)",
+            "Large one (over 400p)",
             "Because the cover is ridiculous",
             "Classic novel",
             "With number on the title",
@@ -208,6 +291,7 @@
         ];
 
         let completedCells = JSON.parse(localStorage.getItem('bingoProgress')) || [];
+        let celebratedBingos = JSON.parse(localStorage.getItem('celebratedBingos')) || [];
 
         function initBingo() {
             const grid = document.getElementById('bingoGrid');
@@ -234,6 +318,7 @@
                 grid.appendChild(cell);
             });
 
+            highlightBingoLines();
             updateProgress();
         }
 
@@ -248,6 +333,151 @@
             
             localStorage.setItem('bingoProgress', JSON.stringify(completedCells));
             initBingo();
+            checkForBingo();
+        }
+
+        function checkForBingo() {
+            const grid = Array(25).fill(false);
+            completedCells.forEach(index => {
+                grid[index] = true;
+            });
+            // Center is always complete (FREE)
+            grid[12] = true;
+
+            const newBingos = [];
+
+            // Check rows
+            for (let row = 0; row < 5; row++) {
+                const start = row * 5;
+                if (grid.slice(start, start + 5).every(cell => cell)) {
+                    const bingoKey = `row-${row}`;
+                    if (!celebratedBingos.includes(bingoKey)) {
+                        newBingos.push({ type: 'row', number: row + 1, key: bingoKey });
+                    }
+                }
+            }
+
+            // Check columns
+            for (let col = 0; col < 5; col++) {
+                const complete = [0, 1, 2, 3, 4].every(row => grid[row * 5 + col]);
+                if (complete) {
+                    const bingoKey = `col-${col}`;
+                    if (!celebratedBingos.includes(bingoKey)) {
+                        newBingos.push({ type: 'column', number: col + 1, key: bingoKey });
+                    }
+                }
+            }
+
+            // Check diagonal (top-left to bottom-right)
+            if ([0, 6, 12, 18, 24].every(i => grid[i])) {
+                const bingoKey = 'diag-1';
+                if (!celebratedBingos.includes(bingoKey)) {
+                    newBingos.push({ type: 'diagonal', number: 1, key: bingoKey });
+                }
+            }
+
+            // Check diagonal (top-right to bottom-left)
+            if ([4, 8, 12, 16, 20].every(i => grid[i])) {
+                const bingoKey = 'diag-2';
+                if (!celebratedBingos.includes(bingoKey)) {
+                    newBingos.push({ type: 'diagonal', number: 2, key: bingoKey });
+                }
+            }
+
+            if (newBingos.length > 0) {
+                celebrate(newBingos);
+            }
+        }
+
+        function celebrate(bingos) {
+            // Add to celebrated list
+            bingos.forEach(bingo => {
+                celebratedBingos.push(bingo.key);
+            });
+            localStorage.setItem('celebratedBingos', JSON.stringify(celebratedBingos));
+
+            // Create confetti
+            createConfetti();
+
+            // Show celebration message
+            const overlay = document.getElementById('celebrationOverlay');
+            const message = document.getElementById('bingoMessage');
+            
+            if (bingos.length === 1) {
+                const bingo = bingos[0];
+                if (bingo.type === 'row') {
+                    message.textContent = `You completed Row ${bingo.number}!`;
+                } else if (bingo.type === 'column') {
+                    message.textContent = `You completed Column ${bingo.number}!`;
+                } else {
+                    message.textContent = `You completed a Diagonal!`;
+                }
+            } else {
+                message.textContent = `You completed ${bingos.length} lines at once! Amazing!`;
+            }
+            
+            overlay.classList.add('active');
+        }
+
+        function createConfetti() {
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#ffa07a', '#98d8c8', '#f7dc6f', '#bb8fce', '#85c1e2'];
+            const confettiCount = 100;
+
+            for (let i = 0; i < confettiCount; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    document.body.appendChild(confetti);
+
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 20);
+            }
+        }
+
+        function closeCelebration() {
+            document.getElementById('celebrationOverlay').classList.remove('active');
+        }
+
+        function highlightBingoLines() {
+            const grid = Array(25).fill(false);
+            completedCells.forEach(index => {
+                grid[index] = true;
+            });
+            grid[12] = true; // FREE space
+
+            const cells = document.querySelectorAll('.bingo-cell');
+
+            // Check and highlight rows
+            for (let row = 0; row < 5; row++) {
+                const start = row * 5;
+                if (grid.slice(start, start + 5).every(cell => cell)) {
+                    for (let i = 0; i < 5; i++) {
+                        cells[start + i].classList.add('bingo-line');
+                    }
+                }
+            }
+
+            // Check and highlight columns
+            for (let col = 0; col < 5; col++) {
+                if ([0, 1, 2, 3, 4].every(row => grid[row * 5 + col])) {
+                    for (let row = 0; row < 5; row++) {
+                        cells[row * 5 + col].classList.add('bingo-line');
+                    }
+                }
+            }
+
+            // Check and highlight diagonals
+            if ([0, 6, 12, 18, 24].every(i => grid[i])) {
+                [0, 6, 12, 18, 24].forEach(i => cells[i].classList.add('bingo-line'));
+            }
+
+            if ([4, 8, 12, 16, 20].every(i => grid[i])) {
+                [4, 8, 12, 16, 20].forEach(i => cells[i].classList.add('bingo-line'));
+            }
         }
 
         function updateProgress() {
@@ -263,7 +493,9 @@
         function resetBingo() {
             if (confirm('Are you sure you want to reset all progress?')) {
                 completedCells = [];
+                celebratedBingos = [];
                 localStorage.removeItem('bingoProgress');
+                localStorage.removeItem('celebratedBingos');
                 initBingo();
             }
         }
@@ -277,6 +509,11 @@
             completed.forEach(task => {
                 message += `✓ ${task}\n`;
             });
+            
+            const bingoCount = celebratedBingos.length;
+            if (bingoCount > 0) {
+                message += `\n🍾 BINGO Lines Completed: ${bingoCount}`;
+            }
             
             alert(message);
         }
