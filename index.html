@@ -1,1 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading Bingo 2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: rgba(255,255,255,0.9);
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+
+        .bingo-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .bingo-cell {
+            aspect-ratio: 1;
+            border: 3px solid #667eea;
+            border-radius: 10px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 0.85em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bingo-cell:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .bingo-cell.completed {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #764ba2;
+        }
+
+        .bingo-cell.completed::after {
+            content: '✓';
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .bingo-cell.free {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            font-weight: bold;
+            cursor: default;
+            font-size: 1.2em;
+        }
+
+        .bingo-cell.free:hover {
+            transform: none;
+        }
+
+        .progress-bar {
+            margin-top: 20px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 20px;
+            padding: 5px;
+            backdrop-filter: blur(10px);
+        }
+
+        .progress-fill {
+            height: 30px;
+            background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 15px;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            min-width: 40px;
+        }
+
+        .controls {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        button {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        @media (max-width: 768px) {
+            .bingo-cell {
+                font-size: 0.7em;
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .bingo-grid {
+                gap: 5px;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 READ A BOOK 📚</h1>
+        <p class="subtitle">2026 Reading Bingo</p>
+        
+        <div class="bingo-grid" id="bingoGrid"></div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar">0/24</div>
+        </div>
+
+        <div class="controls">
+            <button onclick="resetBingo()">Reset All</button>
+            <button onclick="exportProgress()">Save Progress</button>
+        </div>
+    </div>
+
+    <script>
+        const bingoTasks = [
+            "Won't stop following (TBR over 5 years)",
+            "Set in a country you've never visited",
+            "You would normally judge",
+            "Your boyfriend picks for you",
+            "Published this year",
+            "A trilogy/series",
+            "5 box of your physical TBR",
+            "With a title longer than 7 words",
+            "The first book you touch on a shelf (TBR)",
+            "That everyone probably I've read",
+            "A whole audiobook while knitting",
+            "That was published the year you were born",
+            "FREE",
+            "Non-fiction",
+            "Poetry collection",
+            "Sci-fi or dystopian",
+            "With red cover",
+            "Unread book",
+            "You can't pronounce the author's name",
+            "You can finish in a day",
+            "Large one (over 700p)",
+            "Because the cover is ridiculous",
+            "Classic novel",
+            "With number on the title",
+            "You saw on Instagram"
+        ];
+
+        let completedCells = JSON.parse(localStorage.getItem('bingoProgress')) || [];
+
+        function initBingo() {
+            const grid = document.getElementById('bingoGrid');
+            grid.innerHTML = '';
+
+            bingoTasks.forEach((task, index) => {
+                const cell = document.createElement('div');
+                cell.className = 'bingo-cell';
+                
+                if (task === 'FREE') {
+                    cell.classList.add('free');
+                    cell.textContent = task;
+                } else {
+                    cell.textContent = task;
+                    cell.dataset.index = index;
+                    
+                    if (completedCells.includes(index)) {
+                        cell.classList.add('completed');
+                    }
+                    
+                    cell.addEventListener('click', () => toggleCell(index));
+                }
+                
+                grid.appendChild(cell);
+            });
+
+            updateProgress();
+        }
+
+        function toggleCell(index) {
+            const cellIndex = completedCells.indexOf(index);
+            
+            if (cellIndex > -1) {
+                completedCells.splice(cellIndex, 1);
+            } else {
+                completedCells.push(index);
+            }
+            
+            localStorage.setItem('bingoProgress', JSON.stringify(completedCells));
+            initBingo();
+        }
+
+        function updateProgress() {
+            const total = bingoTasks.length - 1; // excluding FREE space
+            const completed = completedCells.length;
+            const percentage = (completed / total) * 100;
+            
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = percentage + '%';
+            progressBar.textContent = `${completed}/${total}`;
+        }
+
+        function resetBingo() {
+            if (confirm('Are you sure you want to reset all progress?')) {
+                completedCells = [];
+                localStorage.removeItem('bingoProgress');
+                initBingo();
+            }
+        }
+
+        function exportProgress() {
+            const completed = bingoTasks.filter((task, index) => 
+                completedCells.includes(index) && task !== 'FREE'
+            );
+            
+            let message = `Reading Bingo Progress: ${completedCells.length}/24\n\nCompleted:\n`;
+            completed.forEach(task => {
+                message += `✓ ${task}\n`;
+            });
+            
+            alert(message);
+        }
+
+        // Initialize on load
+        initBingo();
+    </script>
+</body>
+</html>
