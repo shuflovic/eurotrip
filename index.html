@@ -141,33 +141,35 @@
         .bingo-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 9px;
-            padding: 8px;
+            gap: 7px;
+            padding: 5px;
         }
 
         /* Square book cells - horizontal text */
-        .bingo-cell {
-            aspect-ratio: 1;
-            background: linear-gradient(135deg, var(--paper-cream) 0%, var(--paper-aged) 100%);
-            border-radius: 4px;
-            padding: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            font-size: 0.9em;
-            color: var(--ink-black);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            box-shadow: 
-                2px 2px 8px rgba(0,0,0,0.15),
-                inset 0 1px 0 rgba(255,255,255,0.5);
-            border: 1px solid rgba(139, 90, 43, 0.2);
-            font-family: 'Cormorant Garamond', serif;
-            line-height: 1.4;
-            overflow: hidden;
-        }
+
+.bingo-cell {
+    aspect-ratio: 1;
+    background: linear-gradient(135deg, var(--paper-cream) 0%, var(--paper-aged) 100%);
+    border-radius: 4px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 0.95em;
+    color: var(--ink-black);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    box-shadow: 
+        2px 2px 8px rgba(0,0,0,0.15),
+        inset 0 1px 0 rgba(255,255,255,0.5);
+    border: 1px solid rgba(139, 90, 43, 0.2);
+    font-family: 'Cormorant Garamond', serif;
+    line-height: 1.4;
+    overflow: hidden;
+    min-height: 120px;
+}
 
         /* Book cover spine effect on left */
         .bingo-cell::before {
