@@ -146,8 +146,8 @@
 
         @media (max-width: 768px) {
             .bingo-cell {
-                font-size: 0.6em;
-                padding: 8px;
+                font-size: 0.7em;
+                padding: 10px;
             }
 
             h1 {
@@ -156,7 +156,7 @@
 
             .bingo-grid {
                 gap: 5px;
-                padding: 8px;
+                padding: 10px;
             }
         }
 
@@ -238,8 +238,8 @@
 </head>
 <body>
     <div class="container">
-        <h1>2026 Reading Bingo</h1>
-        <p class="subtitle">READ A BOOK</p>
+        <h1>📚 READ A BOOK 📚</h1>
+        <p class="subtitle">2026 Reading Challenge</p>
         
         <div class="bingo-grid" id="bingoGrid"></div>
         
@@ -249,7 +249,7 @@
 
         <div class="controls">
             <button onclick="resetBingo()">Reset All</button>
-            <button onclick="exportProgress()">Save Progress</button>
+            <button onclick="shareProgress()">Share Progress</button>
         </div>
     </div>
 
@@ -263,7 +263,7 @@
 
     <script>
         const bingoTasks = [
-            "On TBR over 5 years",
+            "Won't stop following (TBR over 5 years)",
             "Set in a country you've never visited",
             "You would normally judge",
             "Your boyfriend picks for you",
@@ -283,7 +283,7 @@
             "Unread book",
             "You can't pronounce the author's name",
             "You can finish in a day",
-            "Large one (over 700p)",
+            "Large one (over 400p)",
             "Because the cover is ridiculous",
             "Classic novel",
             "With number on the title",
@@ -500,22 +500,69 @@
             }
         }
 
-        function exportProgress() {
+        function shareProgress() {
             const completed = bingoTasks.filter((task, index) => 
                 completedCells.includes(index) && task !== 'FREE'
             );
             
-            let message = `Reading Bingo Progress: ${completedCells.length}/24\n\nCompleted:\n`;
-            completed.forEach(task => {
-                message += `✓ ${task}\n`;
-            });
+            let message = `📚 2026 Reading Bingo Progress 📚\n\n`;
+            message += `Completed: ${completedCells.length}/24 books\n\n`;
+            
+            if (completed.length > 0) {
+                message += `Books read:\n`;
+                completed.forEach(task => {
+                    message += `✓ ${task}\n`;
+                });
+            }
             
             const bingoCount = celebratedBingos.length;
             if (bingoCount > 0) {
                 message += `\n🍾 BINGO Lines Completed: ${bingoCount}`;
             }
             
-            alert(message);
+            // Try to use Web Share API if available (mobile devices)
+            if (navigator.share) {
+                navigator.share({
+                    title: '2026 Reading Bingo Progress',
+                    text: message
+                }).catch(err => {
+                    // If user cancels share, just copy to clipboard
+                    copyToClipboard(message);
+                });
+            } else {
+                // Fallback: copy to clipboard
+                copyToClipboard(message);
+            }
+        }
+
+        function copyToClipboard(text) {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(() => {
+                    alert('Progress copied to clipboard! You can now paste it anywhere to share.');
+                }).catch(() => {
+                    // Fallback for older browsers
+                    fallbackCopy(text);
+                });
+            } else {
+                fallbackCopy(text);
+            }
+        }
+
+        function fallbackCopy(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                alert('Progress copied to clipboard! You can now paste it anywhere to share.');
+            } catch (err) {
+                // If all else fails, just show the text
+                alert(text);
+            }
+            document.body.removeChild(textArea);
         }
 
         // Initialize on load
