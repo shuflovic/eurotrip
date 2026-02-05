@@ -147,29 +147,25 @@
 
         /* Square book cells - horizontal text */
 
-.bingo-cell {
-    aspect-ratio: 1;
-    background: linear-gradient(135deg, var(--paper-cream) 0%, var(--paper-aged) 100%);
-    border-radius: 4px;
-    padding: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    font-size: 0.95em;
-    color: var(--ink-black);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    box-shadow: 
-        2px 2px 8px rgba(0,0,0,0.15),
-        inset 0 1px 0 rgba(255,255,255,0.5);
-    border: 1px solid rgba(139, 90, 43, 0.2);
-    font-family: 'Cormorant Garamond', serif;
-    line-height: 1.4;
-    overflow: hidden;
-    min-height: 120px;
-}
+        .bingo-cell {
+            aspect-ratio: 1;
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 245, 212, 0.2);
+            border-radius: 12px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 0.9em;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            font-weight: 500;
+            line-height: 1.3;
+        }
 
         /* Book cover spine effect on left */
         .bingo-cell::before {
