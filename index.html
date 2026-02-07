@@ -42,6 +42,10 @@
             padding: 0;
         }
 
+        #icon-moon {
+            display: none;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
@@ -410,7 +414,7 @@
                     <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                 </svg>
                 <!-- Moon Icon (Hidden by default in CSS logic) -->
-                <svg id="icon-moon" style="display:none;" viewBox="0 0 24 24">
+                <svg id="icon-moon" viewBox="0 0 24 24">
                     <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                 </svg>
             </button>
@@ -503,10 +507,10 @@
             "Your boyfriend picks for you",
             "Published this year",
             "A trilogy/series",
-            "5th book on your physical TBR",
+            "5 books on your physical TBR",
             "With a title longer than 7 words",
             "The first book you touch on a shelf (TBR)",
-            "That everyone probably I've read",
+            "People lie about reading",
             "A whole audiobook while knitting",
             "That was published the year you were born",
             "FREE",
@@ -542,7 +546,7 @@
         function init() {
             initTheme(); // Initialize theme first
             currentTasks = [...initialTasks];
-            markedState[12] = true;
+            markedState[12] = true;  // REMOVE THIS LINE
             renderGrid();
             updateProgress();
         }
@@ -659,17 +663,17 @@
             showToast("Board Curated");
         }
 
-        function resetBoard() {
-            if (!confirm('Reset all progress? This cannot be undone.')) {
-                return;
-            }
-            
-            markedState = new Array(25).fill(false);
-            markedState[12] = true;
-            previousBingoCount = 0; // Reset bingo count
-            renderGrid();
-            updateProgress();
-            showToast("Board Reset");
+       function resetBoard() {
+        if (!confirm('Reset all progress? This cannot be undone.')) {
+            return;
+        }
+        
+        markedState = new Array(25).fill(false);
+        //markedState[12] = true;   REMOVE THIS LINE
+        previousBingoCount = 0; // Reset bingo count
+        renderGrid();
+        updateProgress();
+        showToast("Board Reset");
         }
 
         function showToast(message) {
