@@ -605,6 +605,15 @@
         }
 
         function shuffleBoard() {
+            if (!confirm('Shuffle the board? Your progress will be kept.')) {
+                return;
+            }
+            
+            // Save current marked tasks (excluding FREE)
+            const markedTasks = currentTasks.filter((task, index) => 
+                markedState[index] && task !== 'FREE'
+            );
+            
             const freeTask = "FREE";
             const otherTasks = initialTasks.filter(t => t !== freeTask);
             for (let i = otherTasks.length - 1; i > 0; i--) {
@@ -613,20 +622,43 @@
             }
             const newTasks = [...otherTasks.slice(0, 12), freeTask, ...otherTasks.slice(12)];
             currentTasks = newTasks;
+            
+            // Restore marked state based on tasks
             markedState = new Array(25).fill(false);
-            markedState[12] = true;
-            previousBingoCount = 0; // Reset bingo count
+            markedState[12] = true; // Always mark FREE
+            
+            currentTasks.forEach((task, index) => {
+                if (markedTasks.includes(task)) {
+                    markedState[index] = true;
+                }
+            });
+            
+            // Recalculate bingo count after shuffle
+            let currentBingoCount = 0;
+            for (const pattern of winPatterns) {
+                if (pattern.every(index => markedState[index])) {
+                    currentBingoCount++;
+                }
+            }
+            previousBingoCount = currentBingoCount;
+            
             renderGrid();
             updateProgress();
+            checkWin(); // Update winner highlighting
             showToast("Board Curated");
         }
 
         function resetBoard() {
+            if (!confirm('Reset all progress? This cannot be undone.')) {
+                return;
+            }
+            
             markedState = new Array(25).fill(false);
             markedState[12] = true;
             previousBingoCount = 0; // Reset bingo count
             renderGrid();
             updateProgress();
+            showToast("Board Reset");
         }
 
         function showToast(message) {
