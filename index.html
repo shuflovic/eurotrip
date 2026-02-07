@@ -546,7 +546,6 @@
         function init() {
             initTheme(); // Initialize theme first
             currentTasks = [...initialTasks];
-            markedState[12] = true;  // REMOVE THIS LINE
             renderGrid();
             updateProgress();
         }
@@ -640,7 +639,6 @@
             
             // Restore marked state based on tasks
             markedState = new Array(25).fill(false);
-            markedState[12] = true; // Always mark FREE
             
             currentTasks.forEach((task, index) => {
                 if (markedTasks.includes(task)) {
