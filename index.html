@@ -515,7 +515,7 @@
 
         let currentTasks = [];
         let markedState = new Array(25).fill(false);
-        let isBingoActive = false;
+        let previousBingoCount = 0; // Track previous bingo count
         
         const winPatterns = [
             [0, 1, 2, 3, 4], [5, 6, 7, 8, 9], [10, 11, 12, 13, 14], [15, 16, 17, 18, 19], [20, 21, 22, 23, 24],
@@ -573,22 +573,34 @@
 
         function checkWin() {
             const cells = gridElement.children;
-            let hasBingo = false;
+            let currentBingoCount = 0;
+            
+            // Remove all winner classes first
             Array.from(cells).forEach(c => c.classList.remove('winner'));
 
+            // Count and mark all bingo lines
             for (const pattern of winPatterns) {
                 if (pattern.every(index => markedState[index])) {
-                    hasBingo = true;
+                    currentBingoCount++;
                     pattern.forEach(index => cells[index].classList.add('winner'));
                 }
             }
 
-            if (hasBingo && !isBingoActive) {
-                showToast("Bingo Completed");
+            // Fire confetti for each NEW bingo line achieved
+            if (currentBingoCount > previousBingoCount) {
+                const newBingos = currentBingoCount - previousBingoCount;
+                
+                if (newBingos === 1) {
+                    showToast("Bingo Completed!");
+                } else {
+                    showToast(`${newBingos} New Bingos!`);
+                }
+                
                 fireConfetti();
-                isBingoActive = true;
-            } else if (!hasBingo) {
-                isBingoActive = false;
+                previousBingoCount = currentBingoCount;
+            } else if (currentBingoCount < previousBingoCount) {
+                // User unmarked something, update the count
+                previousBingoCount = currentBingoCount;
             }
         }
 
@@ -603,7 +615,7 @@
             currentTasks = newTasks;
             markedState = new Array(25).fill(false);
             markedState[12] = true;
-            isBingoActive = false;
+            previousBingoCount = 0; // Reset bingo count
             renderGrid();
             updateProgress();
             showToast("Board Curated");
@@ -612,7 +624,7 @@
         function resetBoard() {
             markedState = new Array(25).fill(false);
             markedState[12] = true;
-            isBingoActive = false;
+            previousBingoCount = 0; // Reset bingo count
             renderGrid();
             updateProgress();
         }
