@@ -169,8 +169,14 @@
 
         /* Marked State */
         .bingo-cell.marked {
-            background-color: var(--card-bg);
+            background-color: var(--bg-color);
             position: relative;
+            opacity: 0.6;
+        }
+        
+        .bingo-cell.marked span {
+            text-decoration: line-through;
+            text-decoration-color: var(--text-muted);
         }
         
         .bingo-cell.marked::after {
@@ -193,6 +199,11 @@
         .bingo-cell.winner {
             background-color: var(--text-main);
             color: var(--bg-color);
+            opacity: 1;
+        }
+        
+        .bingo-cell.winner span {
+            text-decoration: none;
         }
 
         /* --- Bottom Part --- */
