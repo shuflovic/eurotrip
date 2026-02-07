@@ -205,15 +205,21 @@
 
         .status-pill {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 20px;
+            flex-direction: column;
+            gap: 8px;
+            padding: 16px 20px;
             background: var(--card-bg);
             border-radius: 12px;
             border: 1px solid var(--border-color);
             margin-bottom: 20px;
             box-shadow: var(--shadow-float);
             transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        
+        .status-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
         .status-label {
@@ -230,12 +236,29 @@
             font-weight: 700;
             color: var(--text-main);
         }
+        
+        .progress-bar-container {
+            width: 100%;
+            height: 8px;
+            background: var(--border-color);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--text-main);
+            border-radius: 4px;
+            transition: width 0.4s ease;
+            width: 4%;
+        }
 
         .controls {
             display: flex;
             justify-content: center;
             gap: 20px;
             margin-bottom: 30px;
+            flex-wrap: wrap;
         }
 
         button.control-btn {
@@ -268,6 +291,22 @@
         button.control-btn:hover::after {
             transform: scaleX(1);
             transform-origin: left;
+        }
+        
+        button.control-btn.share-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        button.control-btn.share-btn svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
         }
 
         .site-footer {
@@ -376,11 +415,26 @@
 
         <div class="bottom-bar">
             <div class="status-pill">
-                <span class="status-label">Progress</span>
-                <span class="status-count" id="progress-count">1 / 25</span>
+                <div class="status-header">
+                    <span class="status-label">Progress</span>
+                    <span class="status-count" id="progress-count">1 / 25</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" id="progress-bar"></div>
+                </div>
             </div>
 
             <div class="controls">
+                <button class="control-btn share-btn" onclick="shareProgress()">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="18" cy="5" r="3"></circle>
+                        <circle cx="6" cy="12" r="3"></circle>
+                        <circle cx="18" cy="19" r="3"></circle>
+                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                    </svg>
+                    Share
+                </button>
                 <button class="control-btn" onclick="shuffleBoard()">Shuffle Board</button>
                 <button class="control-btn" onclick="resetBoard()">Reset</button>
             </div>
@@ -473,6 +527,7 @@
 
         const gridElement = document.getElementById('bingo-grid');
         const progressElement = document.getElementById('progress-count');
+        const progressBarElement = document.getElementById('progress-bar');
         const toastElement = document.getElementById('toast');
 
         function init() {
@@ -513,7 +568,9 @@
 
         function updateProgress() {
             const count = markedState.filter(Boolean).length;
+            const percentage = (count / 25) * 100;
             progressElement.textContent = `${count} / 25`;
+            progressBarElement.style.width = `${percentage}%`;
         }
 
         function checkWin() {
@@ -566,6 +623,73 @@
             toastElement.textContent = message;
             toastElement.className = "show";
             setTimeout(() => { toastElement.className = toastElement.className.replace("show", ""); }, 3000);
+        }
+
+        // --- Share Progress Function ---
+        function shareProgress() {
+            const completed = currentTasks.filter((task, index) => 
+                markedState[index] && task !== 'FREE'
+            );
+            
+            // Count bingo lines
+            let bingoCount = 0;
+            for (const pattern of winPatterns) {
+                if (pattern.every(index => markedState[index])) {
+                    bingoCount++;
+                }
+            }
+            
+            let message = `📚 READING BINGO 2026 - DATA TRANSMISSION 📚\n\n`;
+            message += `Progress: ${markedState.filter(Boolean).length}/25 books archived\n`;
+            message += `Bingo Lines: ${bingoCount}\n\n`;
+            
+            if (completed.length > 0) {
+                message += `Completed Tasks:\n`;
+                completed.forEach(task => {
+                    message += `◆ ${task}\n`;
+                });
+            }
+                
+            message += `\nSystem: [Your Bingo URL here]`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Reading Bingo 2026 Progress',
+                    text: message
+                }).catch(() => {
+                    copyToClipboard(message);
+                });
+            } else {
+                copyToClipboard(message);
+            }
+        }
+
+        function copyToClipboard(text) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast("Progress copied to clipboard!");
+                }).catch(() => {
+                    fallbackCopy(text);
+                });
+            } else {
+                fallbackCopy(text);
+            }
+        }
+
+        function fallbackCopy(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                showToast("Progress copied to clipboard!");
+            } catch (err) {
+                showToast("Could not copy progress");
+            }
+            document.body.removeChild(textarea);
         }
 
         // --- 3. Confetti Engine ---
